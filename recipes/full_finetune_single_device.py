@@ -267,8 +267,8 @@ class FullFinetuneRecipeSingleDevice(FTRecipeInterface):
         self._tokenizer = config.instantiate(cfg.tokenizer)
         self._logger.info("Tokenizer is initialized from file.")
 
-        if cfg.get("resize_token_embeddings", False):
-            resize_token_embeddings(self._model, self._tokenizer.vocab_size)
+        if cfg.get("resize_token_embeddings", False) and cfg.get("resized_vocab_size", None) is not None:
+            resize_token_embeddings(self._model, cfg.get("resized_vocab_size", None))
 
         # _setup_optimizer should take in ckpt_dict only if training is resumed from
         # checkpoint. Transforming the opt state dict is handled by this method
